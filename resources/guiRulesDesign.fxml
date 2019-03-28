@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.text.Text?>
+
+<GridPane fx:id="Rules" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+          AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8"
+          xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.RulesController">
+    <children>
+        <Text text="Auction Rules"/>
+        <TextField fx:id="AuctionRulesLocation" maxWidth="Infinity" GridPane.columnIndex="1"/>
+        <Button fx:id="AuctionRulesBrowseButton" text="Browse for Lua File" onMouseClicked="#browseForAuctionRules"
+                maxWidth="Infinity" GridPane.columnIndex="2"/>
+        <Text text="Bank Rules" GridPane.rowIndex="1"/>
+        <TextField fx:id="BankRulesLocation" maxWidth="Infinity" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+        <Button fx:id="BankRulesBrowseButton" text="Browse for Lua File" onMouseClicked="#browseForBankRules"
+                maxWidth="Infinity" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+        <Text text="Bankruptcy Rules" GridPane.rowIndex="2"/>
+        <TextField fx:id="BankruptcyRulesLocation" maxWidth="Infinity" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+        <Button fx:id="BankruptcyBrowseButton" text="Browse for Lua File" onMouseClicked="#browseForBankruptcyRules"
+                maxWidth="Infinity" GridPane.rowIndex="2" GridPane.columnIndex="2"/>
+        <Text text="Build Rules" GridPane.rowIndex="3"/>
+        <TextField fx:id="BuildRulesLocation" maxWidth="Infinity" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+        <Button fx:id="BuildRulesBrowseButton" text="Browse for Lua File" onMouseClicked="#browseForBuildRules"
+                maxWidth="Infinity" GridPane.rowIndex="3" GridPane.columnIndex="2"/>
+        <Text text="Go Rules" GridPane.rowIndex="4"/>
+        <TextField fx:id="GoRulesLocation" maxWidth="Infinity" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+        <Button fx:id="GoBrowseButton" text="Browse for Lua File" onMouseClicked="#browseForGoRules" maxWidth="Infinity"
+                GridPane.rowIndex="4" GridPane.columnIndex="2"/>
+        <Text text="Jail Rules" GridPane.rowIndex="5"/>
+        <TextField fx:id="JailRulesLocation" maxWidth="Infinity" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+        <Button fx:id="JailRulesBrowseButton" text="Browse for Lua File" onMouseClicked="#browseForJailRules"
+                maxWidth="Infinity" GridPane.rowIndex="5" GridPane.columnIndex="2"/>
+        <Text text="Move Rules" disable="true" GridPane.rowIndex="6"/>
+        <TextField fx:id="MoveRulesLocation" disable="true" maxWidth="Infinity" GridPane.rowIndex="6"
+                   GridPane.columnIndex="1"/>
+        <Button fx:id="MoveBrowseButton" disable="true" text="Browse for Lua File" onMouseClicked="#browseForMoveRules"
+                maxWidth="Infinity" GridPane.rowIndex="6" GridPane.columnIndex="2"/>
+        <Text text="Selling Rules" GridPane.rowIndex="7"/>
+        <TextField fx:id="SellingRulesLocation" maxWidth="Infinity" GridPane.rowIndex="7" GridPane.columnIndex="1"/>
+        <Button fx:id="SellingRulesBrowseButton" text="Browse for Lua File" onMouseClicked="#browseForSellingRules"
+                maxWidth="Infinity" GridPane.rowIndex="7" GridPane.columnIndex="2"/>
+        <Text text="Station Rules" GridPane.rowIndex="8"/>
+        <TextField fx:id="StationRulesLocation" maxWidth="Infinity" GridPane.rowIndex="8" GridPane.columnIndex="1"/>
+        <Button fx:id="StationBrowseButton" text="Browse for Lua File" onMouseClicked="#browseForStationRules"
+                maxWidth="Infinity" GridPane.rowIndex="8" GridPane.columnIndex="2"/>
+        <Text text="Selling Rules" GridPane.rowIndex="9"/>
+        <TextField fx:id="TaxRulesLocation" maxWidth="Infinity" GridPane.rowIndex="9" GridPane.columnIndex="1"/>
+        <Button fx:id="TaxRulesBrowseButton" text="Browse for Lua File" onMouseClicked="#browseForTaxRules"
+                maxWidth="Infinity" GridPane.rowIndex="9" GridPane.columnIndex="2"/>
+        <Text text="Utility Rules" GridPane.rowIndex="10"/>
+        <TextField fx:id="UtilityRulesLocation" maxWidth="Infinity" GridPane.rowIndex="10" GridPane.columnIndex="1"/>
+        <Button fx:id="UtilityBrowseButton" text="Browse for Lua File" onMouseClicked="#browseForUtilityRules"
+                maxWidth="Infinity" GridPane.rowIndex="10" GridPane.columnIndex="2"/>
+
+    </children>
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+    </rowConstraints>
+
+</GridPane>
