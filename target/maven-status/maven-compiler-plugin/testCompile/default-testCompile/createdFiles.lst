@@ -1,0 +1,14 @@
+Rules/BuildRulesTest.class
+Rules/UtilityRulesTest.class
+Rules/StationRulesTest.class
+Rules/BankruptcyRulesTest.class
+Board/BoardHelperTest.class
+Players/PlayerTest.class
+Rules/GoRulesTest.class
+Cards/DeckTest.class
+Rules/SellingRulesTest.class
+Rules/TaxRulesTest.class
+Rules/BankTest.class
+Rules/AuctionRulesTest.class
+Cards/CardTest.class
+Rules/JailRulesTest.class

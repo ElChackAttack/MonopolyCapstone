@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.embed.swing.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<GridPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:id="CardInfo"
+          fx:controller="GUI.CardInformationController" prefHeight="283.0" prefWidth="446.0"
+          AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+          AnchorPane.topAnchor="0.0">
+
+    <children>
+        <Text fx:id="CardNameLabel" text="Card Name"/>
+        <TextField fx:id="CardNameTextField" text="" GridPane.columnIndex="1"/>
+        <Text fx:id="CardActionLabel" text="Card Action" GridPane.rowIndex="1"/>
+        <ComboBox fx:id="CardActionComboBox" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+        <Text fx:id="Argument1" text="Argument1" GridPane.rowIndex="2"/>
+        <TextField fx:id="Argument1TextField" text="Argument 1" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+        <ComboBox fx:id="Argument1ComboBox" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+        <Text fx:id="Argument2" text="Argument2" GridPane.rowIndex="3"/>
+        <TextField fx:id="Argument2TextField" text="Argument 2" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+        <Button fx:id="saveCardButton" onMouseClicked="#saveCard" text="Save" GridPane.rowIndex="4"/>
+        <Button fx:id="closeButton" text="Close" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+
+    </children>
+</GridPane>
