@@ -3,6 +3,7 @@ package Rules;
 import Board.Group;
 import Board.Tax;
 import Players.Player;
+import Rules.RulesTest.TestTaxRules;
 import junit.framework.TestCase;
 import org.mockito.Mockito;
 
@@ -22,7 +23,7 @@ public class TaxRulesTest extends TestCase {
         when(player.getCurrentLocation()).thenReturn(tax);
         when(player.calculateNetWorth()).thenReturn(100);
 
-        TaxRules rules = new TaxRules(Paths.get("").toAbsolutePath().toString() + "/src/main/LuaFiles/TaxRules.lua");
+        TaxRules rules = new TaxRules();
         assertEquals(10,rules.calculateIncomeTax(player));
     }
     public void testCalculateIncomeTaxWhereNetWorthIsMoreThanSetTax() throws Exception {
@@ -31,7 +32,7 @@ public class TaxRulesTest extends TestCase {
         when(tax.getFee()).thenReturn(200);
         when(player.getCurrentLocation()).thenReturn(tax);
         when(player.calculateNetWorth()).thenReturn(4000);
-        TaxRules rules = new TaxRules(Paths.get("").toAbsolutePath().toString() + "/src/main/LuaFiles/TaxRules.lua");
+        TaxRules rules = new TaxRules();
         assertEquals(200,rules.calculateIncomeTax(player));
     }
     public void testCalculateIncomeTaxWhenNoFixedTaxIsAllowed() throws Exception {
@@ -40,7 +41,7 @@ public class TaxRulesTest extends TestCase {
         when(tax.getFee()).thenReturn(200);
         when(player.getCurrentLocation()).thenReturn(tax);
         when(player.calculateNetWorth()).thenReturn(4000);
-        TaxRules rules = new TaxRules(Paths.get("").toAbsolutePath().toString() +
+        TestTaxRules rules = new TestTaxRules(Paths.get("").toAbsolutePath().toString() +
                 "/src/main/LuaFiles/TestingLuaFiles/TaxRulesTestNoFixedTax.lua");
         assertEquals(400,rules.calculateIncomeTax(player));
     }
@@ -50,7 +51,7 @@ public class TaxRulesTest extends TestCase {
         when(tax.getFee()).thenReturn(200);
         when(player.getCurrentLocation()).thenReturn(tax);
         when(player.calculateNetWorth()).thenReturn(4000);
-        TaxRules rules = new TaxRules(Paths.get("").toAbsolutePath().toString() +
+        TestTaxRules rules = new TestTaxRules(Paths.get("").toAbsolutePath().toString() +
                 "/src/main/LuaFiles/TestingLuaFiles/TaxRulesTestNoFixedTaxAndDifferentIncomeTaxPercentage.lua");
         assertEquals(1000,rules.calculateIncomeTax(player));
     }

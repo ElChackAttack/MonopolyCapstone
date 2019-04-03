@@ -1,16 +1,22 @@
-package Rules;
+package Rules.RulesTest;
 
 import Board.Ownable;
 import Board.Property;
 import Players.AllPlayers;
 import Players.Player;
+import Rules.*;
+
+import org.luaj.vm2.Lua;
+import org.luaj.vm2.LuaValue;
+import org.luaj.vm2.lib.jse.CoerceJavaToLua;
+import org.luaj.vm2.lib.jse.JsePlatform;
 import java.util.logging.*;
 import java.util.Vector;
 
 /**
  * Created by Lucy on 2018/04/02.
  */
-public class Bank {
+public class TestBank {
     private GoRules goRules;
     private BuildRules buildRules;
     private AuctionRules auctionRules;
@@ -20,10 +26,15 @@ public class Bank {
     private static int hotelsInBank;
     private static int housesInBank;
 
-    public Bank() {
-        housesInBank = 32;
-        hotelsInBank = 12;
-        
+    private LuaValue _G;
+
+    public TestBank(String luaFileLocation) {
+        _G = JsePlatform.standardGlobals();
+        _G.get("dofile").call(LuaValue.valueOf(luaFileLocation));
+        LuaValue getStartingHousesInBankMethod = _G.get("getStartingHousesInBank");
+        LuaValue getStartingHotelsInBankMethod = _G.get("getStartingHotelsInBank");
+        housesInBank = getStartingHousesInBankMethod.call().toint();
+        hotelsInBank = getStartingHotelsInBankMethod.call().toint();
         goRules = AllRules.getGoRules();
         buildRules = AllRules.getBuildRules();
         auctionRules = AllRules.getAuctionRules();
@@ -32,17 +43,13 @@ public class Bank {
     }
 
     public void payPlayer(Player playerToSend, Player playerToReceive, int amount) {
-        if (playerToSend.spendMoney(amount)) {
-            playerToReceive.gainMoney(amount);
-        } else {
-            if (bankruptcyRules.checkForBankruptcy(playerToSend, amount)) {
-                bankruptcyRules.bankruptByPlayer(playerToReceive, playerToSend);
-            } else {
-                playerToSend.sellItemsToMakeMoney(amount);
-                playerToSend.spendMoney(amount);
-                playerToReceive.gainMoney(amount);
-            }
-        }
+        LuaValue luaPlayerToSend = CoerceJavaToLua.coerce(playerToSend);
+        LuaValue luaPlayerToReceive = CoerceJavaToLua.coerce(playerToReceive);
+        LuaValue luaPaymentAmount = CoerceJavaToLua.coerce(amount);
+        LuaValue luaBankruptcyRules = CoerceJavaToLua.coerce(bankruptcyRules);
+        LuaValue[] luaMethodArgs = {luaPlayerToSend, luaPlayerToReceive, luaPaymentAmount, luaBankruptcyRules};
+        LuaValue luaPayPlayerMethod = _G.get("payPlayer");
+        luaPayPlayerMethod.invoke(luaMethodArgs);
     }
 
     public void passGo(Player player) {
@@ -151,7 +158,7 @@ public class Bank {
         }
     }
 
-    public int getHotelsInBank() {
+    public  int getHotelsInBank() {
         return hotelsInBank;
     }
 

@@ -1,28 +1,22 @@
 package Rules;
 
-import org.luaj.vm2.LuaValue;
-import org.luaj.vm2.lib.jse.JsePlatform;
-
 /**
- * Created by userhp on 29/01/2016.
+ * Created by Lucy on 2018/04/02.
  */
 public class AuctionRules {
-    LuaValue _G;
+    private static double startingPriceMulitplier;
+    private static double incrementMultiplier;
 
-    public AuctionRules(String luaFileLocation) {
-        _G = JsePlatform.standardGlobals();
-        _G.get("dofile").call(LuaValue.valueOf(luaFileLocation));
+    public AuctionRules() {
+        startingPriceMulitplier = 0.1;
+        incrementMultiplier = 0.05;
     }
 
-
-
     public double getStartingPriceMultiplier() {
-        LuaValue getStartingPriceMultiplier = _G.get("getStartingPriceMultiplier");
-        return getStartingPriceMultiplier.call().todouble();
+        return startingPriceMulitplier;
     }
 
     public double getIncrementMultiplier() {
-        LuaValue getIncrementMultiplier = _G.get("getIncrementMultiplier");
-        return getIncrementMultiplier.call().todouble();
+        return incrementMultiplier;
     }
 }

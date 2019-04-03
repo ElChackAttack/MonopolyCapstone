@@ -4,6 +4,7 @@ import Board.Property;
 import Dice.Dice;
 import Players.AllPlayers;
 import Players.Player;
+import Rules.RulesTest.TestBank;
 import junit.framework.TestCase;
 import org.mockito.*;
 
@@ -50,7 +51,7 @@ public class BankTest extends TestCase {
         AuctionRules rules = Mockito.mock(AuctionRules.class);
         when(rules.getStartingPriceMultiplier()).thenReturn(0.1);
         when(rules.getIncrementMultiplier()).thenReturn(0.05);
-        Bank bank = new Bank(Paths.get("").toAbsolutePath().toString() + "/src/main/LuaFiles/Bank.lua");
+        Bank bank = new Bank();
         Player player1 = Mockito.mock(Player.class);
         Player player2 = Mockito.mock(Player.class);
         Player player3 = Mockito.mock(Player.class);
@@ -82,7 +83,7 @@ public class BankTest extends TestCase {
         when(property.getOwner()).thenReturn(player);
         when(player.spendMoney(50)).thenReturn(true);
         when(rules.canBuildHouse(property,player)).thenReturn(true);
-        Bank bank = new Bank(Paths.get("").toAbsolutePath().toString() + "/src/main/LuaFiles/Bank.lua");
+        Bank bank = new Bank();
         assertTrue(bank.buyHouse(property,player));
         verify(player, times(1)).spendMoney(50);
         verify(property, times(1)).addHouse();
@@ -96,9 +97,9 @@ public class BankTest extends TestCase {
         when(property.getOwner()).thenReturn(player);
         when(player.spendMoney(50)).thenReturn(true);
         when(rules.canBuildHouse(property,player)).thenReturn(true);
-        Bank bank = new Bank(Paths.get("").toAbsolutePath().toString() +
+        TestBank bank = new TestBank(Paths.get("").toAbsolutePath().toString() +
                 "/src/main/LuaFiles/TestingLuaFiles/BankTestWithNoHousesOrHotels.lua");
-        assertFalse(bank.buyHouse(property,player));
+        assertFalse(bank.buyHouse(property, player));
         verify(player, never()).spendMoney(50);
         verify(property, never()).addHouse();
 
@@ -112,7 +113,7 @@ public class BankTest extends TestCase {
         when(player.spendMoney(50)).thenReturn(true);
         when(rules.canBuildHotel(property,player)).thenReturn(true);
         when(rules.amountOfHousesNeededForHotel()).thenReturn(4);
-        Bank bank = new Bank(Paths.get("").toAbsolutePath().toString() + "/src/main/LuaFiles/Bank.lua");
+        Bank bank = new Bank();
         assertTrue(bank.buyHotel(property,player));
         verify(player, times(1)).spendMoney(50);
         verify(property, times(1)).addHotel();
@@ -127,7 +128,7 @@ public class BankTest extends TestCase {
         when(player.spendMoney(50)).thenReturn(true);
         when(rules.canBuildHotel(property,player)).thenReturn(true);
         when(rules.amountOfHousesNeededForHotel()).thenReturn(4);
-        Bank bank = new Bank(Paths.get("").toAbsolutePath().toString() +
+        TestBank bank = new TestBank(Paths.get("").toAbsolutePath().toString() +
                 "/src/main/LuaFiles/TestingLuaFiles/BankTestWithNoHousesOrHotels.lua");
         assertFalse(bank.buyHotel(property,player));
         verify(player, never()).spendMoney(50);
@@ -144,12 +145,13 @@ public class BankTest extends TestCase {
         Player player = Mockito.mock(Player.class);
         when(property.getOwner()).thenReturn(player);
         when(rules.canSellHouse(property,player)).thenReturn(true);
-        Bank bank = new Bank(Paths.get("").toAbsolutePath().toString() + "/src/main/LuaFiles/Bank.lua");
+        Bank bank = new Bank();
         bank.sellHouse(property,player);
         verify(player, times(1)).receiveMoney(25);
         verify(property, times(1)).removeHouse();
         assertEquals(33, bank.getHousesInBank());
     }
+
     public void testSellingAHotel() throws Exception {
         Property property = Mockito.mock(Property.class);
         when(property.getHouseCost()).thenReturn(50);
@@ -161,7 +163,7 @@ public class BankTest extends TestCase {
         when(rules.canSellHouse(property,player)).thenReturn(true);
         when(rules.amountOfHousesNeededForHotel()).thenReturn(4);
         AllRules.setSellingRules(sellingRules);
-        Bank bank = new Bank(Paths.get("").toAbsolutePath().toString() + "/src/main/LuaFiles/Bank.lua");
+        Bank bank = new Bank();
         bank.sellHotel(property,player);
         verify(player, times(1)).receiveMoney(5);
         verify(property, times(1)).removeHotel();
@@ -175,7 +177,7 @@ public class BankTest extends TestCase {
         Player playerSpending = Mockito.mock(Player.class);
         Player playerOwed = Mockito.mock(Player.class);
         when(playerSpending.spendMoney(anyInt())).thenReturn(true);
-        Bank bank = new Bank(Paths.get("").toAbsolutePath().toString() + "/src/main/LuaFiles/Bank.lua");
+        Bank bank = new Bank();
         bank.payPlayer(playerSpending, playerOwed, 200);
         verify(playerOwed, times(1)).gainMoney(200);
     }
@@ -187,7 +189,7 @@ public class BankTest extends TestCase {
         BankruptcyRules mockRules = Mockito.mock(BankruptcyRules.class);
         when(mockRules.checkForBankruptcy(playerSpending, 200)).thenReturn(true);
         AllRules.setBankruptcyRules(mockRules);
-        Bank bank = new Bank(Paths.get("").toAbsolutePath().toString() + "/src/main/LuaFiles/Bank.lua");
+        Bank bank = new Bank();
         bank.payPlayer(playerSpending, playerOwed, 200);
         verify(playerOwed, times(0)).gainMoney(200);
         verify(mockRules, times(1)).bankruptByPlayer(playerOwed, playerSpending);
@@ -200,7 +202,7 @@ public class BankTest extends TestCase {
         BankruptcyRules mockRules = Mockito.mock(BankruptcyRules.class);
         when(mockRules.checkForBankruptcy(playerSpending, 200)).thenReturn(false);
         AllRules.setBankruptcyRules(mockRules);
-        Bank bank = new Bank(Paths.get("").toAbsolutePath().toString() + "/src/main/LuaFiles/Bank.lua");
+        Bank bank = new Bank();
         bank.payPlayer(playerSpending, playerOwed, 200);
         verify(playerOwed, times(1)).gainMoney(200);
         verify(mockRules, times(0)).bankruptByPlayer(playerOwed, playerSpending);

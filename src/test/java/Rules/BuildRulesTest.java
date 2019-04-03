@@ -17,7 +17,7 @@ import static org.mockito.Mockito.*;
 public class BuildRulesTest extends TestCase {
 
     public void testCanBuildHouse() throws Exception {
-        BuildRules rules = new BuildRules(Paths.get("").toAbsolutePath().toString() + "/src/main/LuaFiles/BuildRules.lua");
+        BuildRules rules = new BuildRules();
         Player player = Mockito.mock(Player.class);
         when(player.ownsSpacesOfGroup(any(Group.class))).thenReturn(3);
         BoardHelper boardHelperTest = BoardHelper.getInstance();
@@ -37,7 +37,7 @@ public class BuildRulesTest extends TestCase {
     }
 
     public void testCanBuildHotel() throws Exception {
-        BuildRules rules = new BuildRules(Paths.get("").toAbsolutePath().toString() + "/src/main/LuaFiles/BuildRules.lua");
+        BuildRules rules = new BuildRules();
         Player player = Mockito.mock(Player.class);
         when(player.ownsSpacesOfGroup(any(Group.class))).thenReturn(3);
         BoardHelper boardHelperTest = BoardHelper.getInstance();
@@ -57,7 +57,7 @@ public class BuildRulesTest extends TestCase {
     }
 
     public void testCannotBuildHotel() throws Exception {
-        BuildRules rules = new BuildRules(Paths.get("").toAbsolutePath().toString() + "/src/main/LuaFiles/BuildRules.lua");
+        BuildRules rules = new BuildRules();
         Player player = Mockito.mock(Player.class);
         when(player.ownsSpacesOfGroup(any(Group.class))).thenReturn(3);
         BoardHelper boardHelperTest = BoardHelper.getInstance();
@@ -78,7 +78,7 @@ public class BuildRulesTest extends TestCase {
     }
 
     public void testCannotBuildHouse() throws Exception {
-        BuildRules rules = new BuildRules(Paths.get("").toAbsolutePath().toString() + "/src/main/LuaFiles/BuildRules.lua");
+        BuildRules rules = new BuildRules();
         Player player = Mockito.mock(Player.class);
         when(player.ownsSpacesOfGroup(any(Group.class))).thenReturn(2);
         BoardHelper boardHelperTest = BoardHelper.getInstance();

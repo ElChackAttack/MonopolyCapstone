@@ -14,7 +14,7 @@ import java.util.ConcurrentModificationException;
 import java.util.Vector;
 
 /**
- * Created by marc on 23/11/2015.
+ * Created by Lucy on 2018/04/02.
  */
 
 public class Main {
@@ -33,51 +33,54 @@ public class Main {
             e.printStackTrace();
         }
 
+        // * number of simulations
+        int simulationsToRun = 10;
         int endlessGames = 0;
-        
-        // Very interesting how it defines 1000 simulations to run to begin with
-        int simulationsToRun = 1000;
-        TurnLogger tl = new TurnLogger(Paths.get("").toAbsolutePath().toString() + "/logs/turnLogPlayers8.csv");
-        // This winners array could be manipulated as an input for n players
+
+        // * number of players <= 8
         int[] winners = {0, 0, 0, 0, 0, 0, 0, 0};
+
+        TurnLogger tl = new TurnLogger(Paths.get("").toAbsolutePath().toString() + "/logs/turnLogPlayers8.csv");
+
         for (int i = 0; i < simulationsToRun; i++) {
             DataLogger dl = new DataLogger(Paths.get("").toAbsolutePath().toString() + "/logs/dataLog" + i + ".csv");
-            //Init Rules
-            AuctionRules auctionRules = new AuctionRules(Paths.get("").toAbsolutePath().toString() + "/src/main/LuaFiles/AuctionRules.lua");
+
+            // Init Rules
+            AuctionRules auctionRules = new AuctionRules();
             AllRules.setAuctionRules(auctionRules);
             BankruptcyRules bankruptcyRules = new BankruptcyRules();
             AllRules.setBankruptcyRules(bankruptcyRules);
-            BuildRules buildRules = new BuildRules(Paths.get("").toAbsolutePath().toString() + "/src/main/LuaFiles/BuildRules.lua");
+            BuildRules buildRules = new BuildRules();
             AllRules.setBuildRules(buildRules);
-            GoRules goRules = new GoRules(Paths.get("").toAbsolutePath().toString() + "/src/main/LuaFiles/GoRules.lua");
+            GoRules goRules = new GoRules();
             AllRules.setGoRules(goRules);
-            JailRules jailRules = new JailRules(Paths.get("").toAbsolutePath().toString() + "/src/main/LuaFiles/JailRules.lua");
+            JailRules jailRules = new JailRules();
             AllRules.setJailRules(jailRules);
-            SellingRules sellingRules = new SellingRules(Paths.get("").toAbsolutePath().toString() + "/src/main/LuaFiles/SellingRules.lua");
+            SellingRules sellingRules = new SellingRules();
             AllRules.setSellingRules(sellingRules);
-            StationRules stationRules = new StationRules(Paths.get("").toAbsolutePath().toString() + "/src/main/LuaFiles/StationRules.lua");
+            StationRules stationRules = new StationRules();
             AllRules.setStationRules(stationRules);
-            TaxRules taxRules = new TaxRules(Paths.get("").toAbsolutePath().toString() + "/src/main/LuaFiles/TaxRules.lua");
+            TaxRules taxRules = new TaxRules();
             AllRules.setTaxRules(taxRules);
-            UtilityRules utilityRules = new UtilityRules(Paths.get("").toAbsolutePath().toString() + "/src/main/LuaFiles/UtilityRules.lua");
+            UtilityRules utilityRules = new UtilityRules();
             AllRules.setUtilityRules(utilityRules);
-            Bank bank = new Bank(Paths.get("").toAbsolutePath().toString() + "/src/main/LuaFiles/Bank.lua");
+            Bank bank = new Bank();
             AllRules.setBankRules(bank);
 
-            // important to highlight all the code which refers back to the GUI and start "trimming"
-            //init BoardGui
+            // Init Board
             BoardHelper.getInstance().populateBoard("Monopoly Map.csv");
 
-            //Init Deck
+            // Init Deck
             Deck.getInstance().initializeDeck("ExampleOfCards.csv");
 
-            //Init Players
-                // For this section, both dice and players can be initialized through the use of an
-                // init function based on user input
+            // Init Dice
+            // * number of dice
             Dice dice1 = new Dice();
             Dice dice2 = new Dice();
             Dice[] diceForGame = {dice1, dice2};
 
+            // Init Players
+            // * building players prototype: number of players, initial endowment for each
             Player player1 = new Player("Player 1", 1500, diceForGame);
             Player player2 = new Player("Player 2", 1500, diceForGame);
             Player player3 = new Player("Player 3", 1500, diceForGame);
@@ -86,6 +89,8 @@ public class Main {
             Player player6 = new Player("Player 6", 1500, diceForGame);
             Player player7 = new Player("Player 7", 1500, diceForGame);
             Player player8 = new Player("Player 8", 1500, diceForGame);
+
+            // * add players to game
             Vector<Player> playersInGame = new Vector<Player>();
             playersInGame.add(player1);
             playersInGame.add(player2);
@@ -97,29 +102,30 @@ public class Main {
             playersInGame.add(player8);
             Collections.sort(playersInGame, new OrderStartingPlayers());
             AllPlayers.init(playersInGame);
+
             TurnCounter.resetCounter();
             Vector<Player> allPlayers;
             Long StartingTime = System.nanoTime();
+
+            // * endlessGames = 500
             while (AllPlayers.getInstance().getAllPlayers().size() > 1 && TurnCounter.getTurn() < 500) {
                 allPlayers = AllPlayers.getInstance().getAllPlayers();
                 try {
-                    for (Player player : AllPlayers.getInstance().getAllPlayers()) {
+                    for (Player player : allPlayers) {
                         player.onTurn();
-                        for (Player p : AllPlayers.getInstance().getAllPlayers()) {
+                        for (Player p : allPlayers) {
                             p.betweenTurns();
                         }
-
-                        
                     }
                 } catch (ConcurrentModificationException e) {
 
                 }
-                //endOfTurnLog(allPlayers);
                 TurnCounter.newTurn();
             }
+
             if (TurnCounter.getTurn() > 499) {
                 endlessGames++;
-                System.out.println("Game ended at 3000 turns");
+                System.out.println("Game ended at 500 turns");
                 Player player = AllPlayers.getInstance().getAllPlayers().firstElement();
                 for (Player p : AllPlayers.getInstance().getAllPlayers()) {
                     if (p.getMoney() > player.getMoney()) {
@@ -135,16 +141,12 @@ public class Main {
                     winners[2]++;
                 } else if (player.getName().equalsIgnoreCase("Player 4")) {
                     winners[3]++;
-                
                 } else if (player.getName().equalsIgnoreCase("Player 5")) {
                     winners[4]++;
-                
                 } else if (player.getName().equalsIgnoreCase("Player 6")) {
                     winners[5]++;
-                
                 } else if (player.getName().equalsIgnoreCase("Player 7")) {
                     winners[6]++;
-                
                 } else if (player.getName().equalsIgnoreCase("Player 8")) {
                     winners[7]++;
                 }
@@ -159,16 +161,12 @@ public class Main {
                     winners[2]++;
                 } else if (player.getName().equalsIgnoreCase("Player 4")) {
                     winners[3]++;
-                
                 } else if (player.getName().equalsIgnoreCase("Player 5")) {
                     winners[4]++;
-                
                 } else if (player.getName().equalsIgnoreCase("Player 6")) {
                     winners[5]++;
-                
                 } else if (player.getName().equalsIgnoreCase("Player 7")) {
                     winners[6]++;
-                
                 } else if (player.getName().equalsIgnoreCase("Player 8")) {
                     winners[7]++;
                 }
@@ -179,7 +177,6 @@ public class Main {
             DataLogger.closeFiles();
             TurnLogger.writeToLog(TurnCounter.getTurn());
             TurnCounter.resetCounter();
-            //Run Simulation
 
         }
         TurnLogger.closeFiles();

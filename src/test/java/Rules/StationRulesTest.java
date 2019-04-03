@@ -17,7 +17,7 @@ public class StationRulesTest extends TestCase {
 
     public void testCalculateRentWithOneStation() throws Exception {
 
-        StationRules rules = new StationRules(Paths.get("").toAbsolutePath().toString() + "/src/main/LuaFiles/StationRules.lua");
+        StationRules rules = new StationRules();
         Player owner = Mockito.mock(Player.class);
         Player visitor = Mockito.mock(Player.class);
         when(owner.ownsSpacesOfGroup(Group.Station)).thenReturn(1);
@@ -27,7 +27,7 @@ public class StationRulesTest extends TestCase {
     }
     public void testCalculateRentWithTwoStations() throws Exception {
 
-        StationRules rules = new StationRules(Paths.get("").toAbsolutePath().toString() + "/src/main/LuaFiles/StationRules.lua");
+        StationRules rules = new StationRules();
         Player owner = Mockito.mock(Player.class);
         Player visitor = Mockito.mock(Player.class);
         when(owner.ownsSpacesOfGroup(Group.Station)).thenReturn(2);
@@ -37,7 +37,7 @@ public class StationRulesTest extends TestCase {
     }
     public void testCalculateRentWithThreeStations() throws Exception {
 
-        StationRules rules = new StationRules(Paths.get("").toAbsolutePath().toString() + "/src/main/LuaFiles/StationRules.lua");
+        StationRules rules = new StationRules();
         Player owner = Mockito.mock(Player.class);
         Player visitor = Mockito.mock(Player.class);
         when(owner.ownsSpacesOfGroup(Group.Station)).thenReturn(3);
@@ -47,7 +47,7 @@ public class StationRulesTest extends TestCase {
     }
     public void testCalculateRentWithFourStations() throws Exception {
 
-        StationRules rules = new StationRules(Paths.get("").toAbsolutePath().toString() + "/src/main/LuaFiles/StationRules.lua");
+        StationRules rules = new StationRules();
         Player owner = Mockito.mock(Player.class);
         Player visitor = Mockito.mock(Player.class);
         when(owner.ownsSpacesOfGroup(Group.Station)).thenReturn(4);
@@ -56,7 +56,7 @@ public class StationRulesTest extends TestCase {
     }
     public void testCalculateRentWithOneStationAndArriveByCard() throws Exception {
 
-        StationRules rules = new StationRules(Paths.get("").toAbsolutePath().toString() + "/src/main/LuaFiles/StationRules.lua");
+        StationRules rules = new StationRules();
         Player owner = Mockito.mock(Player.class);
         Player visitor = Mockito.mock(Player.class);
         when(owner.ownsSpacesOfGroup(Group.Station)).thenReturn(1);
@@ -66,7 +66,7 @@ public class StationRulesTest extends TestCase {
     }
     public void testCalculateRentWithTwoStationsAndArriveByCard() throws Exception {
 
-        StationRules rules = new StationRules(Paths.get("").toAbsolutePath().toString() + "/src/main/LuaFiles/StationRules.lua");
+        StationRules rules = new StationRules();
        
         Player owner = Mockito.mock(Player.class);
         Player visitor = Mockito.mock(Player.class);
@@ -77,7 +77,7 @@ public class StationRulesTest extends TestCase {
     }
     public void testCalculateRentWithThreeStationsAndArriveByCard() throws Exception {
 
-        StationRules rules = new StationRules(Paths.get("").toAbsolutePath().toString() + "/src/main/LuaFiles/StationRules.lua");
+        StationRules rules = new StationRules();
         Player owner = Mockito.mock(Player.class);
         Player visitor = Mockito.mock(Player.class);
         when(owner.ownsSpacesOfGroup(Group.Station)).thenReturn(3);
@@ -87,7 +87,7 @@ public class StationRulesTest extends TestCase {
     }
     public void testCalculateRentWithFourStationsAndArriveByCard() throws Exception {
 
-        StationRules rules = new StationRules(Paths.get("").toAbsolutePath().toString() + "/src/main/LuaFiles/StationRules.lua");
+        StationRules rules = new StationRules();
         Player owner = Mockito.mock(Player.class);
         Player visitor = Mockito.mock(Player.class);
         when(owner.ownsSpacesOfGroup(Group.Station)).thenReturn(4);

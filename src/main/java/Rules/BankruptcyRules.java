@@ -13,20 +13,20 @@ import java.util.Vector;
  */
 public class BankruptcyRules {
 
-
-    public boolean checkForBankruptcy(Player player, int moneyOwed){
+    public boolean checkForBankruptcy(Player player, int moneyOwed) {
         boolean bankrupt = false;
-        if(player.calculateSaleableItems()<moneyOwed){
+        if(player.calculateSaleableItems()<moneyOwed) {
             bankrupt = true;
         }
         return bankrupt;
     }
-    public void bankruptByPlayer(Player owedPlayer, Player bankruptPlayer){
+
+    public void bankruptByPlayer(Player owedPlayer, Player bankruptPlayer) {
         int allBankruptPlayerMoney = bankruptPlayer.getMoney();
         owedPlayer.receiveMoney(allBankruptPlayerMoney);
         bankruptPlayer.spendMoney(allBankruptPlayerMoney);
         Vector<Ownable> ownedSpaces = (Vector<Ownable>) bankruptPlayer.getOwnedSpaces().clone();
-        for(Ownable space : ownedSpaces){
+        for(Ownable space : ownedSpaces) {
             owedPlayer.addProperty(space);
             bankruptPlayer.removeProperty(space);
             space.setOwner(owedPlayer);
@@ -35,11 +35,12 @@ public class BankruptcyRules {
         DataLogger.writeToLog(TurnCounter.getTurn(), bankruptPlayer, bankruptPlayer.getCurrentLocation());
         AllPlayers.getInstance().removePlayer(bankruptPlayer);
     }
-    public void bankruptByBank( Player bankruptPlayer){
+
+    public void bankruptByBank( Player bankruptPlayer) {
         int allBankruptPlayerMoney = bankruptPlayer.getMoney();
         bankruptPlayer.spendMoney(allBankruptPlayerMoney);
         Vector<Ownable> ownedSpaces = bankruptPlayer.getOwnedSpaces();
-        for(Ownable space : ownedSpaces){
+        for(Ownable space : ownedSpaces) {
             AllRules.getBankRules().auctionProperty(space);
             bankruptPlayer.removeProperty(space);
         }
@@ -47,8 +48,4 @@ public class BankruptcyRules {
         DataLogger.writeToLog(TurnCounter.getTurn(), bankruptPlayer, bankruptPlayer.getCurrentLocation());
         AllPlayers.getInstance().removePlayer(bankruptPlayer);
     }
-
-    
-
-    
 }

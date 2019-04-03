@@ -2,34 +2,30 @@ package Rules;
 
 import Players.Player;
 import Board.Group;
-import org.luaj.vm2.LuaValue;
-import org.luaj.vm2.lib.jse.CoerceJavaToLua;
-import org.luaj.vm2.lib.jse.JsePlatform;
 
 /**
- * Created by userhp on 30/01/2016.
+ * Created by Lucy on 2018/04/02.
  */
 public class UtilityRules {
+    private static int multiplierForOneUtility;
+    private static int multiplierForBothUtilities;
 
-    private LuaValue _G;
-
-    public UtilityRules(String luaFileLocation) {
-        _G = JsePlatform.standardGlobals();
-        _G.get("dofile").call(LuaValue.valueOf(luaFileLocation));
+    public UtilityRules() {
+        multiplierForOneUtility = 4;
+        multiplierForBothUtilities = 10;
     }
+    
     public int calculateRent(Player owner, Player visitor) {
-
-        LuaValue luaOwner = CoerceJavaToLua.coerce(owner);
-        LuaValue luaVisitor = CoerceJavaToLua.coerce(visitor);
-        LuaValue liaUtility = CoerceJavaToLua.coerce(Group.Utility);
-        LuaValue luaCardMove = CoerceJavaToLua.coerce(MoveType.Card);
-
-        LuaValue[] luaArgs = {luaOwner, luaVisitor, luaCardMove, liaUtility};
-
-        LuaValue luaCalculateRentMethod = _G.get("calculateRent");
-
-        int rentOwed = luaCalculateRentMethod.invoke(luaArgs).arg1().toint();
+        int rentOwed = 0;
+        if (visitor.getMoveTaken().equals(MoveType.Card)) {
+            rentOwed = visitor.rollDice().getSumOfDiceRolls() * multiplierForBothUtilities;
+        } else {
+            if (owner.ownsSpacesOfGroup(Group.Utility) == 2) {
+                rentOwed = visitor.getLastDiceRoll().getSumOfDiceRolls() * multiplierForBothUtilities;
+            } else {
+                rentOwed = visitor.getLastDiceRoll().getSumOfDiceRolls() * multiplierForOneUtility;
+            }
+        }
         return rentOwed;
-        
     }
 }

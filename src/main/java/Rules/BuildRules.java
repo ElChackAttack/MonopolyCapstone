@@ -2,25 +2,18 @@ package Rules;
 
 import Board.*;
 import Players.Player;
-import org.luaj.vm2.LuaTable;
-import org.luaj.vm2.LuaValue;
-import org.luaj.vm2.Varargs;
-import org.luaj.vm2.lib.jse.CoerceJavaToLua;
-import org.luaj.vm2.lib.jse.JsePlatform;
 
 import java.util.Stack;
 
 /**
- * //TODO logic needs to be added to incorporate rules
- * Created by userhp on 29/01/2016.
+ * ? differenece Lua function and not Lua ones
+ * Created by Lucy on 2018/04/02.
  */
 public class BuildRules {
+    private static int amountOfHousesNeededForHotel;
 
-    LuaValue _G;
-
-    public BuildRules(String luaFileLocation) {
-        _G = JsePlatform.standardGlobals();
-        _G.get("dofile").call(LuaValue.valueOf(luaFileLocation));
+    public BuildRules() {
+        amountOfHousesNeededForHotel = 4;
     }
 
     public boolean canBuildHouse(Property property, Player player) {
@@ -50,26 +43,19 @@ public class BuildRules {
         return equalHouses;
     }
 
+    // ? differenece between this function and the one above
     private boolean canBuildHouseLua(Property property, Player player) {
-        BoardHelper boardHelper = BoardHelper.getInstance();
-        LuaValue luaBoard = CoerceJavaToLua.coerce(boardHelper);
-        LuaValue luaProperty = CoerceJavaToLua.coerce(property);
-        LuaValue luaPlayer = CoerceJavaToLua.coerce(player);
-
-        Stack<Ownable> playerOwnedPropertiesOfGroup = player.getOwnedPropertiesOfGroup(property.getGroup());
-
-        LuaTable luaPlayerOwnedProperties = LuaTable.tableOf();
-
-
-        for (int i = 0; i < playerOwnedPropertiesOfGroup.size(); i++) {
-            luaPlayerOwnedProperties.insert(i, CoerceJavaToLua.coerce(playerOwnedPropertiesOfGroup.pop()));
+        boolean allowedToBuildHouse = false;
+        Group group = property.getGroup();
+        if (player.ownsSpacesOfGroup(group) == BoardHelper.getInstance().amountOfSpacesInGroup(group)) {
+            for (Ownable p : player.getOwnedPropertiesOfGroup(group)) {
+                Property prop = (Property) p;
+                if (property.getHouses() == prop.getHouses() || property.getHouses() == prop.getHouses() - 1) {
+                    allowedToBuildHouse = true;
+                }
+            }
         }
-
-
-        LuaValue methodCanBuildHouse = _G.get("canBuildHouse");
-        LuaValue[] luaArgs = {luaProperty, luaPlayer, luaBoard, luaPlayerOwnedProperties.toLuaValue()};
-        Varargs canBuildHouse = methodCanBuildHouse.invoke(luaArgs);
-        return canBuildHouse.arg1().toboolean();
+        return allowedToBuildHouse;
     }
 
     public boolean canBuildHotel(Property property, Player player) {
@@ -99,37 +85,37 @@ public class BuildRules {
         return equalHouses;
     }
 
+    // ? differenece between this function and the one above
     private boolean canBuildHotelLuaFunction(Property property, Player player) {
-        BoardHelper boardHelper = BoardHelper.getInstance();
-        LuaValue luaBoard = CoerceJavaToLua.coerce(boardHelper);
-        LuaValue luaProperty = CoerceJavaToLua.coerce(property);
-        LuaValue luaPlayer = CoerceJavaToLua.coerce(player);
-
-        Stack<Ownable> playerOwnedPropertiesOfGroup = player.getOwnedPropertiesOfGroup(property.getGroup());
-
-        LuaTable luaPlayerOwnedProperties = LuaTable.tableOf();
-
-
-        for (int i = 0; i < playerOwnedPropertiesOfGroup.size(); i++) {
-            luaPlayerOwnedProperties.insert(i, CoerceJavaToLua.coerce(playerOwnedPropertiesOfGroup.pop()));
+        Group group = property.getGroup();
+        Stack<Ownable> playerOwnedPropertiesOfGroup = player.getOwnedPropertiesOfGroup(group);
+        boolean allowedToBuildHotel = false;
+        if (property.getHouses() == amountOfHousesNeededForHotel 
+        && allPropertiesHaveSameAmountOfHouses(property, playerOwnedPropertiesOfGroup) 
+        && player.ownsSpacesOfGroup(group) == BoardHelper.getInstance().amountOfSpacesInGroup(group) 
+        && property.getHotels() == 0) {
+            allowedToBuildHotel = true;
         }
+        return allowedToBuildHotel;
+    }
 
-
-        LuaValue methodCanBuildHotel = _G.get("canBuildHotel");
-        LuaValue[] luaArgs = {luaProperty, luaPlayer, luaBoard, luaPlayerOwnedProperties.toLuaValue()};
-        Varargs canBuildHotel = methodCanBuildHotel.invoke(luaArgs);
-        return canBuildHotel.arg1().toboolean();
+    private boolean allPropertiesHaveSameAmountOfHouses(Property property, Stack<Ownable> properties) {
+        boolean enoughHouses = true;
+        for (Ownable p : properties) {
+            Property prop = (Property) p;
+            if (prop.getHouses() != property.getHouses() || prop.getHotels() != 1) {
+                enoughHouses = false;
+            }
+        }
+        return enoughHouses;
     }
 
     public int amountOfHousesNeededForHotel() {
-        return _G.get("getAmountOfHousesNeededForHotel").call().toint();
+        return amountOfHousesNeededForHotel;
     }
 
-    //Todo Implemenent Method
+    // TODO: Implemenent Method
     public boolean canSellHouse(Property property, Player player) {
         return true;
     }
-
-
-
 }

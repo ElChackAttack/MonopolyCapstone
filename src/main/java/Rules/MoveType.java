@@ -1,7 +1,7 @@
 package Rules;
 
 /**
- * Created by userhp on 30/01/2016.
+ * Created by Lucy on 2018/04/02.
  */
 public enum MoveType { DiceRoll, Card, GoToJail
 }

@@ -10,12 +10,12 @@ import java.nio.file.Paths;
 public class SellingRulesTest extends TestCase {
 
     public void testPriceReductionForSellingOfHouse() throws Exception {
-        SellingRules rules = new SellingRules(Paths.get("").toAbsolutePath().toString() + "/src/main/LuaFiles/SellingRules.lua");
+        SellingRules rules = new SellingRules();
         assertEquals(0.5, rules.priceReductionForSellingOfHouse());
     }
 
     public void testPriceReductionForSellingOfHotel() throws Exception {
-        SellingRules rules = new SellingRules(Paths.get("").toAbsolutePath().toString() + "/src/main/LuaFiles/SellingRules.lua");
+        SellingRules rules = new SellingRules();
         assertEquals(0.5, rules.priceReductionForSellingOfHotel());
     }
 }

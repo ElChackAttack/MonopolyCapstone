@@ -1,29 +1,22 @@
 package Rules;
 
-import org.luaj.vm2.LuaValue;
-import org.luaj.vm2.lib.jse.JsePlatform;
-
 /**
- * Created by userhp on 30/01/2016.
+ * Created by Lucy on 2018/04/02.
  */
 public class SellingRules {
+    private static double priceReductionForSellingHouse;
+    private static double priceReductionForSellingHotel;
 
-    private LuaValue _G;
-
-    public SellingRules(String luaFileLocation) {
-        _G = JsePlatform.standardGlobals();
-        _G.get("dofile").call(LuaValue.valueOf(luaFileLocation));
+    public SellingRules() {
+        priceReductionForSellingHouse = 0.5;
+        priceReductionForSellingHotel = 0.5;
     }
 
     public double priceReductionForSellingOfHouse() {
-
-        LuaValue getPriceReductionForSellingOfHouse = _G.get("getPriceReductionForSellingOfHouse");
-        return getPriceReductionForSellingOfHouse.call().todouble();
+        return priceReductionForSellingHouse;
     }
 
     public double priceReductionForSellingOfHotel() {
-
-        LuaValue getPriceReductionForSellingOfHotel = _G.get("getPriceReductionForSellingOfHotel");
-        return getPriceReductionForSellingOfHotel.call().todouble();
+        return priceReductionForSellingHotel;
     }
 }

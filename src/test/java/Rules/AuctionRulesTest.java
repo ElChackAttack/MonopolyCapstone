@@ -10,12 +10,12 @@ import java.nio.file.Paths;
 public class AuctionRulesTest extends TestCase {
 
     public void testGetStartingPriceMultiplier() throws Exception {
-        AuctionRules rules = new AuctionRules(Paths.get("").toAbsolutePath().toString() + "/src/main/LuaFiles/AuctionRules.lua");
+        AuctionRules rules = new AuctionRules();
         assertEquals(0.1, rules.getStartingPriceMultiplier());
     }
 
     public void testGetIncrementMultiplier() throws Exception {
-        AuctionRules rules = new AuctionRules(Paths.get("").toAbsolutePath().toString() + "/src/main/LuaFiles/AuctionRules.lua");
+        AuctionRules rules = new AuctionRules();
         assertEquals(0.05, rules.getIncrementMultiplier());
     }
 }

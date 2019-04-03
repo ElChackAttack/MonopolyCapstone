@@ -3,7 +3,7 @@ package Rules;
 import Players.Player;
 
 /**
- * Created by userhp on 23/02/2016.
+ * Created by Lucy on 2018/04/02.
  */
 public class MoveRules {
 

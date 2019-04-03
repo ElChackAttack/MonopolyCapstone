@@ -2,30 +2,37 @@ package Rules;
 
 import Board.Group;
 import Players.Player;
-import org.luaj.vm2.LuaValue;
-import org.luaj.vm2.Varargs;
-import org.luaj.vm2.lib.jse.CoerceJavaToLua;
-import org.luaj.vm2.lib.jse.JsePlatform;
 
 /**
- * Created by userhp on 30/01/2016.
+ * Created by Lucy on 2018/04/02.
  */
 public class StationRules {
+    private static int oneStationRent;
+    private static int twoStationRent;
+    private static int threeStationRent;
+    private static int fourStationRent;
 
-    private LuaValue _G;
-
-    public StationRules(String luaFileLocation) {
-        _G = JsePlatform.standardGlobals();
-        _G.get("dofile").call(LuaValue.valueOf(luaFileLocation));
+    public StationRules() {
+        oneStationRent = 25;
+        twoStationRent = 50;
+        threeStationRent = 100;
+        fourStationRent = 200;
     }
     public int calculateRent(Player owner, Player visitor) {
-        LuaValue luaOwner = CoerceJavaToLua.coerce(owner);
-        LuaValue luaVisitor = CoerceJavaToLua.coerce(visitor);
-        LuaValue luaStation = CoerceJavaToLua.coerce(Group.Station);
-        LuaValue luaCardMove = CoerceJavaToLua.coerce(MoveType.Card);
-        LuaValue luaCalculateRentMethod = _G.get("calculateRent");
-        LuaValue[] luaMethodArgs = {luaOwner, luaVisitor, luaStation, luaCardMove};
-        int rentOwed = luaCalculateRentMethod.invoke(luaMethodArgs).arg1().toint();
+        int rentOwed = 0;
+        int stationsOwned = owner.ownsSpacesOfGroup(Group.Station);
+        if (stationsOwned == 4) {
+            rentOwed = fourStationRent;
+        } else if (stationsOwned == 3) {
+            rentOwed = threeStationRent;
+        } else if (stationsOwned == 2) {
+            rentOwed = twoStationRent;
+        } else {
+            rentOwed = oneStationRent;
+        }
+        if (visitor.getMoveTaken().equals(MoveType.Card)) {
+            rentOwed = rentOwed * 2;
+        }
         return rentOwed;
     }
 }

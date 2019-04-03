@@ -11,7 +11,7 @@ public class GoRulesTest extends TestCase {
 
 
     public void testGetSalary() throws Exception {
-        GoRules rules = new GoRules(Paths.get("").toAbsolutePath().toString() + "/src/main/LuaFiles/GoRules.lua");
+        GoRules rules = new GoRules();
         assertEquals(200, rules.getSalary());
     }
 }
