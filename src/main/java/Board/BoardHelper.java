@@ -22,6 +22,7 @@ public class BoardHelper {
     public static BoardHelper getInstance() {
         return instance;
     }
+    
     public void populateBoard(String fileName) {
         File in = new File(fileName);
         try {
@@ -30,7 +31,7 @@ public class BoardHelper {
             fr = new FileReader(in);
             br = new BufferedReader(fr);
             int size = 0;
-
+            
             while(!(br.readLine()== null))size++;
             fr = new FileReader(in);
             br = new BufferedReader(fr);
@@ -47,6 +48,7 @@ public class BoardHelper {
                 spaces.add(loc,space);
                 line = br.readLine();
             }
+            br.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -151,10 +153,12 @@ public class BoardHelper {
     public Space moveToSpace(Player playerToMove, int spacesToMove) {
         //Needs to check if movesPast go
         int newLocation = this.getLocationOfSpace(playerToMove.getCurrentLocation()) + spacesToMove;
-        if(newLocation<0){
+        if (newLocation < 0) {
             newLocation = spaces.size() + newLocation;
         } else if (newLocation >= spaces.size()) {
-            playerToMove.gainMoney(AllRules.getGoRules().getSalary());
+            if (ParameterFetch.getSalaryPerNumOfTurn() == 0) {
+                playerToMove.receiveMoney(AllRules.getGoRules().getSalary(playerToMove));
+            }
             newLocation = newLocation % (spaces.size());
         }
         try {

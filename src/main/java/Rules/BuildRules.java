@@ -114,7 +114,7 @@ public class BuildRules {
         return amountOfHousesNeededForHotel;
     }
 
-    // TODO: Implemenent Method
+    // Todo: Implemenent Method
     public boolean canSellHouse(Property property, Player player) {
         return true;
     }

@@ -45,7 +45,6 @@ public class Player implements Serializable {
 
         loggingName = name;
         //DataLogger.writeToLog(0, this, currentLocation);
-
     }
 
     public void onTurn() {
@@ -72,7 +71,6 @@ public class Player implements Serializable {
                 moveTaken = MoveType.DiceRoll;
             }
         }
-
     }
 
     //To Be Expanded
@@ -101,8 +99,6 @@ public class Player implements Serializable {
                     }
                 }
             }
-
-
         }
         // Need to work out a suitable way of describing what properties are wanted and and algorithm for selling them.
         // This may take a while 
@@ -113,7 +109,6 @@ public class Player implements Serializable {
         boolean tradeProperty = false;
         if (rand > 0.25) {
             tradeProperty = true;
-
         }
         LOGGER.info(loggingName + " wants to trade space " + space.getName() + ": " + tradeProperty);
         return tradeProperty;
@@ -197,7 +192,6 @@ public class Player implements Serializable {
                 moveToLocation(BoardHelper.getInstance().moveToSpace(this, roll.getSumOfDiceRolls()));
                 inJail = false;
                 turnInJail = 0;
-
             }
         }
     }
@@ -209,7 +203,6 @@ public class Player implements Serializable {
         }
         return payFine;
     }
-
 
     public DiceRoll rollDice(){        
         Vector<Integer> diceResults = new Vector<Integer>();
@@ -226,22 +219,16 @@ public class Player implements Serializable {
             }
         }        
         DiceRoll roll = new DiceRoll(sumOfDiceRolls,allTheSame);
-
         lastDiceRoll = roll;
         return roll;
-
-
-
     }
 
     public Space getCurrentLocation() {
         return currentLocation;
     }
 
-
-
-   public void gainMoney(int amount){
-       money+=amount;
+   public void receiveMoney(int amount){
+       money += amount;
    }
 
     public boolean spendMoney(int amount){
@@ -255,7 +242,6 @@ public class Player implements Serializable {
             LOGGER.info(loggingName + " spent " + amount + "\nThey now have: " + money);
         }
         return enoughMoney;
-
     }
 
     public void moveToLocation(Space location) {
@@ -265,9 +251,7 @@ public class Player implements Serializable {
         location.onVisit(this);
     }
 
-    public void receiveMoney(int feeToPlayer) {
-        money +=feeToPlayer;
-    }
+
 
     public void keepCard(Card card) {
         cards.add(card);
@@ -285,12 +269,11 @@ public class Player implements Serializable {
             if (bankruptcyRules.checkForBankruptcy(this, feeToPlayer)) {
                 bankruptcyRules.bankruptByBank(this);
             }
-            else{
+            else {
                 this.sellItemsToMakeMoney(feeToPlayer);
                 this.spendMoney(feeToPlayer);
             }
         }
-
     }
 
     public void sellItemsToMakeMoney(int moneyNeeded) {
@@ -316,7 +299,6 @@ public class Player implements Serializable {
             }
         }
     }
-
 
     public void receiveMoneyFromPlayers(int feeToPlayer) {
         for(Player player : AllPlayers.getInstance().getAllPlayers()){
@@ -402,6 +384,7 @@ public class Player implements Serializable {
         LOGGER.info(loggingName + " now owns " + space.getName());
         ownedSpaces.add(space);
     }
+
     public void removeProperty(Ownable space) {
         LOGGER.info(loggingName + " no longer owns " + space.getName());
         ownedSpaces.remove(space);
@@ -410,6 +393,7 @@ public class Player implements Serializable {
     public MoveType getMoveTaken() {
         return moveTaken;
     }
+
     public int ownsSpacesOfGroup(Group group){
         int amountOfSpacesOwned =0;
         for (Space space : ownedSpaces){
@@ -422,25 +406,21 @@ public class Player implements Serializable {
     
 
     public int calculateNetWorth() {
-        //TODO test method
+        // Todo: test method
         int netWorth = money;
-
         for(Ownable space : ownedSpaces){
             netWorth += space.getCost();
             if(space instanceof Property){
                 netWorth += ((Property) space).getHotels()* ((Property) space).getHouseCost();
                 netWorth += ((Property) space).getHouses()* ((Property) space).getHouseCost();
             }
-
         }
         return netWorth;
     }
 
     public int calculateSaleableItems() {
-        //Todo test method
-
+        // Todo: test method
         int saleableMoney = money;
-
         for(Ownable space : ownedSpaces){
             saleableMoney += space.getMortgagePrice();
             if(space instanceof Property){
@@ -448,13 +428,13 @@ public class Player implements Serializable {
                 saleableMoney += ((Property) space).getHouses() * ((Property) space).getHouseCost() * AllRules.getSellingRules().priceReductionForSellingOfHouse();
             }
         }
-
         return saleableMoney;
     }
 
     public int getMoney(){
         return money;
     }
+    
     public Vector<Ownable> getOwnedSpaces(){
         return ownedSpaces;
     }

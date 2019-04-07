@@ -2,15 +2,15 @@ package Board;
 
 import Players.Player;
 import Rules.AllRules;
-import Rules.TaxRules;
+import Board.ParameterFetch;
 
 /**
- * Contains the information for tax spaces
+ * Contains the information for tax spaces.
  *
- * Created by marc on 20/11/2015.
+ * Created by Lucy on 2018/04/05.
  */
 public class Tax extends Space {
-    private int fee;
+    private static int fee;
 
     public Tax(String name, int location, int fee){
         super.setGroup(Group.Tax);
@@ -18,19 +18,19 @@ public class Tax extends Space {
         super.setLocation(location);
         this.fee = fee;
     }
+
     public int getFee(){
-        return fee;
+        return ParameterFetch.getTaxFee(super.getName());
     }
-
-
+    
 
     @Override
+    /**
+     * Default: fixed luxury tax, non-fixed income tax
+     */
     public void onVisit(Player player) {
-        if(super.getName().equalsIgnoreCase("Income Tax")){
-            player.spendMoney(AllRules.getTaxRules().calculateIncomeTax(player));
-        }
-        else{
-            player.spendMoney(fee);
+        if ((super.getName().equalsIgnoreCase("Income Tax") && ParameterFetch.getIncomeTaxPerNumOfTurn() == 0) || (super.getName().equalsIgnoreCase("Luxury Tax") && ParameterFetch.getLuxuryTaxPerNumOfTurn() == 0)) {
+            player.spendMoney(AllRules.getTaxRules().calculateTax(player, null));
         }
     }
 }

@@ -1,7 +1,7 @@
 package Rules;
 
 /**
- * Created by userhp on 23/02/2016.
+ * Created by Lucy on 2018/04/05.
  */
 public class AllRules {
     private static AuctionRules auctionRules;

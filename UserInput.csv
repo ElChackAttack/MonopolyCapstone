@@ -1,0 +1,16 @@
+variable,value,percent (0 means fixed calculation),numTurn (0 means by Round)
+numOfDice,2,,
+endlessTurn,500,,
+simulationsToRun,10,,
+salary,200,0.1,10
+incomeTax,200,0.1,10
+luxuryTax,75,0,0
+numOfPlayers,4,,
+endowment,1500,,
+endowment,1500,,
+endowment,1500,,
+endowment,1500,,
+endowment,1500,,
+endowment,1500,,
+endowment,1500,,
+endowment,1500,,

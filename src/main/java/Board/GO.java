@@ -14,6 +14,8 @@ public class GO extends Space {
         super.setGroup(group);
         super.setLocation(location);
     }
+
+    
     @Override
     public void onVisit(Player player) {
         //bankRules.passGo(player);

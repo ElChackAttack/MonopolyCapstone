@@ -33,20 +33,20 @@ public class Bank {
 
     public void payPlayer(Player playerToSend, Player playerToReceive, int amount) {
         if (playerToSend.spendMoney(amount)) {
-            playerToReceive.gainMoney(amount);
+            playerToReceive.receiveMoney(amount);
         } else {
             if (bankruptcyRules.checkForBankruptcy(playerToSend, amount)) {
                 bankruptcyRules.bankruptByPlayer(playerToReceive, playerToSend);
             } else {
                 playerToSend.sellItemsToMakeMoney(amount);
                 playerToSend.spendMoney(amount);
-                playerToReceive.gainMoney(amount);
+                playerToReceive.receiveMoney(amount);
             }
         }
     }
 
     public void passGo(Player player) {
-        player.receiveMoney(goRules.getSalary());
+        player.receiveMoney(goRules.getSalary(player));
     }
 
     public boolean buyHouse(Property property,Player player) {
@@ -161,7 +161,7 @@ public class Bank {
 
     public void mortgageProperty(Ownable space, Player player) {
         space.setMortgaged(true);
-        player.gainMoney(space.getMortgagePrice());
+        player.receiveMoney(space.getMortgagePrice());
     }
 
     public void unmortgageProperty(Ownable space, Player player) {

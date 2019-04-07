@@ -1,5 +1,6 @@
 Rules/RulesTest/TestUtilityRules.class
 Rules/SellingRules.class
+Board/ParameterFetch.class
 Cards/Card$1.class
 Board/Station.class
 Players/Player.class

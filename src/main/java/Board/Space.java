@@ -5,7 +5,7 @@ import Rules.AllRules;
 import Rules.Bank;
 
 /**
- * Created by marc on 20/11/2015.
+ * Created by Lucy on 2018/04/05.
  */
 public abstract class Space {
     private Group group;
@@ -16,12 +16,15 @@ public abstract class Space {
     public Group getGroup(){
         return group;
     }
+    
     protected void setGroup(Group newGroup){
         group = newGroup;
     }
+
     public int getLocation(){
         return location;
     }
+
     protected void setLocation(int loc){
         location=loc;
     }

@@ -8,9 +8,9 @@ import java.util.*;
 /**
  * Created by userhp on 26/01/2016.
  */
-public  class Deck {
-    private  LinkedList<CommunityChestCard> CommunityChestDeck;
-    private  LinkedList<ChanceCard> ChanceDeck;
+public class Deck {
+    private LinkedList<CommunityChestCard> CommunityChestDeck;
+    private LinkedList<ChanceCard> ChanceDeck;
 
     private static Deck instance = new Deck();
     private Deck(){}
@@ -18,7 +18,6 @@ public  class Deck {
     public static Deck getInstance() {
         return instance ;
     }
-
 
     public  void shuffleDecks() {
         Collections.shuffle(CommunityChestDeck);
@@ -38,8 +37,6 @@ public  class Deck {
             while (!(br.readLine() == null)) size++;
             fr = new FileReader(in);
             br = new BufferedReader(fr);
-
-
             br.readLine();
             String line = br.readLine();
             while (!(line == null)) {
@@ -51,6 +48,7 @@ public  class Deck {
                 }
                 line = br.readLine();
             }
+            br.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -62,10 +60,8 @@ public  class Deck {
     private ChanceCard generateChanceCard(String[] splittedString) {
         CardAction action = parseCardAction(splittedString[1]);
         ChanceCard card;
-
         String name = splittedString[2];
         switch (action) {
-
             case AdvanceToLocation:
                 card = new ChanceCard(name, action, BoardHelper.getInstance().getSpaceOnBoard(splittedString[3]));
                 break;
@@ -93,10 +89,8 @@ public  class Deck {
     private CommunityChestCard generateCommunityChestCard(String[] splittedString) {
         CardAction action = parseCardAction(splittedString[1]);
         CommunityChestCard card;
-
         String name = splittedString[2];
         switch (action) {
-
             case AdvanceToLocation:
                 card = new CommunityChestCard(name, action, BoardHelper.getInstance().getSpaceOnBoard(splittedString[3]));
                 break;
@@ -127,16 +121,16 @@ public  class Deck {
             if (action.toString().equals(cardActionString)) {
                 cardAction = action;
             }
-
         }
         return cardAction;
     }
 
-    public  void initializeBlankDeck(){
+    public void initializeBlankDeck(){
         CommunityChestDeck = new LinkedList<CommunityChestCard>();
         ChanceDeck = new LinkedList<ChanceCard>();
     }
-    public  ChanceCard drawChanceCard(){
+
+    public ChanceCard drawChanceCard(){
         ChanceCard card = null;
         try{
             card = ChanceDeck.pop();
@@ -148,24 +142,24 @@ public  class Deck {
     }
 
     public void addCard(Card card) {
-        if (card instanceof ChanceCard){
+        if (card instanceof ChanceCard) {
             ChanceDeck.addLast((ChanceCard) card);
         }
-        else{
+        else {
             CommunityChestDeck.addLast((CommunityChestCard) card);
         }
     }
+
     public  CommunityChestCard drawCommunityChestCard(){
         CommunityChestCard card = null;
-        try{
+        try {
             card = CommunityChestDeck.pop();
         }
-        catch(NoSuchElementException e){
+        catch (NoSuchElementException e){
             System.out.println("No Community Chest cards in Deck");
         }
         return card;
     }
-
 
     public LinkedList<CommunityChestCard> getCommunityChestDeck() {
         return CommunityChestDeck;

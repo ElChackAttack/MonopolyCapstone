@@ -16,9 +16,10 @@ import java.util.Vector;
 /**
  * Created by Lucy on 2018/04/02.
  */
-
 public class Main {
-
+    private static int incomeTaxPerNumOfTurn;
+    private static int luxuryTaxPerNumOfTurn;
+    private static int salaryPerNumOfTurn;
     public static void main(String args[]) {
         try {
             LogManager.getLogManager().reset();
@@ -33,14 +34,18 @@ public class Main {
             e.printStackTrace();
         }
 
-        // * number of simulations
-        int simulationsToRun = 10;
-        int endlessGames = 0;
-
-        // * number of players <= 8
-        int[] winners = {0, 0, 0, 0, 0, 0, 0, 0};
-
         TurnLogger tl = new TurnLogger(Paths.get("").toAbsolutePath().toString() + "/logs/turnLogPlayers8.csv");
+
+        ParameterFetch parameter = new ParameterFetch(Paths.get("").toAbsolutePath().toString() + "/UserInput.csv");
+        incomeTaxPerNumOfTurn = ParameterFetch.getIncomeTaxPerNumOfTurn();
+        luxuryTaxPerNumOfTurn = ParameterFetch.getLuxuryTaxPerNumOfTurn();
+        salaryPerNumOfTurn = ParameterFetch.getSalaryPerNumOfTurn();
+        int simulationsToRun = ParameterFetch.getSimulationsToRun();
+        int endlessTurn = ParameterFetch.getEndlessTurn();
+        int[] winners = new int[ParameterFetch.getNumOfPlayers()];
+        Arrays.fill(winners, 0);
+
+        int endlessGames = 0;
 
         for (int i = 0; i < simulationsToRun; i++) {
             DataLogger dl = new DataLogger(Paths.get("").toAbsolutePath().toString() + "/logs/dataLog" + i + ".csv");
@@ -73,33 +78,8 @@ public class Main {
             // Init Deck
             Deck.getInstance().initializeDeck("ExampleOfCards.csv");
 
-            // Init Dice
-            // * number of dice
-            Dice dice1 = new Dice();
-            Dice dice2 = new Dice();
-            Dice[] diceForGame = {dice1, dice2};
-
-            // Init Players
-            // * building players prototype: number of players, initial endowment for each
-            Player player1 = new Player("Player 1", 1500, diceForGame);
-            Player player2 = new Player("Player 2", 1500, diceForGame);
-            Player player3 = new Player("Player 3", 1500, diceForGame);
-            Player player4 = new Player("Player 4", 1500, diceForGame);
-            Player player5 = new Player("Player 5", 1500, diceForGame);
-            Player player6 = new Player("Player 6", 1500, diceForGame);
-            Player player7 = new Player("Player 7", 1500, diceForGame);
-            Player player8 = new Player("Player 8", 1500, diceForGame);
-
-            // * add players to game
-            Vector<Player> playersInGame = new Vector<Player>();
-            playersInGame.add(player1);
-            playersInGame.add(player2);
-            playersInGame.add(player3);
-            playersInGame.add(player4);
-            playersInGame.add(player5);
-            playersInGame.add(player6);
-            playersInGame.add(player7);
-            playersInGame.add(player8);
+            // Init Players and add players to game
+            Vector<Player> playersInGame = ParameterFetch.getPlayersInGame();
             Collections.sort(playersInGame, new OrderStartingPlayers());
             AllPlayers.init(playersInGame);
 
@@ -107,8 +87,7 @@ public class Main {
             Vector<Player> allPlayers;
             Long StartingTime = System.nanoTime();
 
-            // * endlessGames = 500
-            while (AllPlayers.getInstance().getAllPlayers().size() > 1 && TurnCounter.getTurn() < 500) {
+            while (AllPlayers.getInstance().getAllPlayers().size() > 1 && TurnCounter.getTurn() <= endlessTurn) {
                 allPlayers = AllPlayers.getInstance().getAllPlayers();
                 try {
                     for (Player player : allPlayers) {
@@ -117,13 +96,25 @@ public class Main {
                             p.betweenTurns();
                         }
                     }
+                    for (Player player : allPlayers) {
+                        int turn = TurnCounter.getTurn();
+                        if (salaryPerNumOfTurn != 0 && turn % salaryPerNumOfTurn == 0) {
+                            player.receiveMoney(AllRules.getGoRules().getSalary(player));
+                        }
+                        if (incomeTaxPerNumOfTurn != 0 && turn % incomeTaxPerNumOfTurn == 0) {
+                            player.spendMoney(AllRules.getTaxRules().calculateTax(player, "Income Tax"));
+                        }
+                        if (luxuryTaxPerNumOfTurn != 0 && turn % luxuryTaxPerNumOfTurn == 0) {
+                            player.spendMoney(AllRules.getTaxRules().calculateTax(player, "Luxury Tax"));
+                        }
+                    }
                 } catch (ConcurrentModificationException e) {
 
                 }
                 TurnCounter.newTurn();
             }
 
-            if (TurnCounter.getTurn() > 499) {
+            if (TurnCounter.getTurn() > endlessTurn) {
                 endlessGames++;
                 System.out.println("Game ended at 500 turns");
                 Player player = AllPlayers.getInstance().getAllPlayers().firstElement();
@@ -133,43 +124,13 @@ public class Main {
                     }
                 }
                 System.out.println("Winner is " + player.getName());
-                if (player.getName().equalsIgnoreCase("Player 1")) {
-                    winners[0]++;
-                } else if (player.getName().equalsIgnoreCase("Player 2")) {
-                    winners[1]++;
-                } else if (player.getName().equalsIgnoreCase("Player 3")) {
-                    winners[2]++;
-                } else if (player.getName().equalsIgnoreCase("Player 4")) {
-                    winners[3]++;
-                } else if (player.getName().equalsIgnoreCase("Player 5")) {
-                    winners[4]++;
-                } else if (player.getName().equalsIgnoreCase("Player 6")) {
-                    winners[5]++;
-                } else if (player.getName().equalsIgnoreCase("Player 7")) {
-                    winners[6]++;
-                } else if (player.getName().equalsIgnoreCase("Player 8")) {
-                    winners[7]++;
-                }
+                int playerIndex = Integer.parseInt(player.getName().split(" ")[1]);
+                winners[playerIndex - 1]++;
             } else {
                 Player player = AllPlayers.getInstance().getAllPlayers().firstElement();
                 System.out.println("Winner is " + player.getName());
-                if (player.getName().equalsIgnoreCase("Player 1")) {
-                    winners[0]++;
-                } else if (player.getName().equalsIgnoreCase("Player 2")) {
-                    winners[1]++;
-                } else if (player.getName().equalsIgnoreCase("Player 3")) {
-                    winners[2]++;
-                } else if (player.getName().equalsIgnoreCase("Player 4")) {
-                    winners[3]++;
-                } else if (player.getName().equalsIgnoreCase("Player 5")) {
-                    winners[4]++;
-                } else if (player.getName().equalsIgnoreCase("Player 6")) {
-                    winners[5]++;
-                } else if (player.getName().equalsIgnoreCase("Player 7")) {
-                    winners[6]++;
-                } else if (player.getName().equalsIgnoreCase("Player 8")) {
-                    winners[7]++;
-                }
+                int playerIndex = Integer.parseInt(player.getName().split(" ")[1]);
+                winners[playerIndex - 1]++;
             }
             System.out.println("Game Finished in " + (System.nanoTime() - StartingTime) / 1000000000.0 + "s");
             System.out.println("Turns taken = " + TurnCounter.getTurn());
@@ -181,14 +142,9 @@ public class Main {
         }
         TurnLogger.closeFiles();
         System.out.println("Endless games = " + endlessGames + " out of games played = " + simulationsToRun);
-        System.out.println("Player 1 won : " + winners[0] + " games");
-        System.out.println("Player 2 won : " + winners[1] + " games");
-        System.out.println("Player 3 won : " + winners[2] + " games");
-        System.out.println("Player 4 won : " + winners[3] + " games");
-        System.out.println("Player 5 won : " + winners[4] + " games");
-        System.out.println("Player 6 won : " + winners[5] + " games");
-        System.out.println("Player 7 won : " + winners[6] + " games");
-        System.out.println("Player 8 won : " + winners[7] + " games");
+        for (int i = 0; i < winners.length; i++) {
+            System.out.println("Player " + (i + 1) + " won : " + winners[i] + " games");   
+        }
     }
 
     private static void endOfTurnLog(Vector<Player> players) {

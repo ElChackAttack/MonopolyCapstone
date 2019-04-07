@@ -168,7 +168,7 @@ public class TestBank {
 
     public void mortgageProperty(Ownable space, Player player) {
         space.setMortgaged(true);
-        player.gainMoney(space.getMortgagePrice());
+        player.receiveMoney(space.getMortgagePrice());
     }
 
     public void unmortgageProperty(Ownable space, Player player) {

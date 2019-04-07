@@ -179,7 +179,7 @@ public class BankTest extends TestCase {
         when(playerSpending.spendMoney(anyInt())).thenReturn(true);
         Bank bank = new Bank();
         bank.payPlayer(playerSpending, playerOwed, 200);
-        verify(playerOwed, times(1)).gainMoney(200);
+        verify(playerOwed, times(1)).receiveMoney(200);
     }
 
     public void testPayPlayerWhenPlayerDoesNotHaveEnoughMoneyAndNotEnoughSalableItems() throws Exception {
@@ -191,7 +191,7 @@ public class BankTest extends TestCase {
         AllRules.setBankruptcyRules(mockRules);
         Bank bank = new Bank();
         bank.payPlayer(playerSpending, playerOwed, 200);
-        verify(playerOwed, times(0)).gainMoney(200);
+        verify(playerOwed, times(0)).receiveMoney(200);
         verify(mockRules, times(1)).bankruptByPlayer(playerOwed, playerSpending);
     }
 
@@ -204,7 +204,7 @@ public class BankTest extends TestCase {
         AllRules.setBankruptcyRules(mockRules);
         Bank bank = new Bank();
         bank.payPlayer(playerSpending, playerOwed, 200);
-        verify(playerOwed, times(1)).gainMoney(200);
+        verify(playerOwed, times(1)).receiveMoney(200);
         verify(mockRules, times(0)).bankruptByPlayer(playerOwed, playerSpending);
     }
 }

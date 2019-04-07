@@ -24,7 +24,7 @@ public class TaxRulesTest extends TestCase {
         when(player.calculateNetWorth()).thenReturn(100);
 
         TaxRules rules = new TaxRules();
-        assertEquals(10,rules.calculateIncomeTax(player));
+        assertEquals(10,rules.calculateTax(player, null));
     }
     public void testCalculateIncomeTaxWhereNetWorthIsMoreThanSetTax() throws Exception {
         Player player = Mockito.mock(Player.class);
@@ -33,7 +33,7 @@ public class TaxRulesTest extends TestCase {
         when(player.getCurrentLocation()).thenReturn(tax);
         when(player.calculateNetWorth()).thenReturn(4000);
         TaxRules rules = new TaxRules();
-        assertEquals(200,rules.calculateIncomeTax(player));
+        assertEquals(200,rules.calculateTax(player, null));
     }
     public void testCalculateIncomeTaxWhenNoFixedTaxIsAllowed() throws Exception {
         Player player = Mockito.mock(Player.class);
