@@ -1,7 +1,7 @@
 package Rules;
 
-import Players.Player;
 import Board.Group;
+import Players.Player;
 
 /**
  * Created by Lucy on 2018/04/02.

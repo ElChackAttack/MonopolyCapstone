@@ -1,4 +1,4 @@
-package Logger;
+package Utility;
 
 /**
  * Created by userhp on 23/03/2016.

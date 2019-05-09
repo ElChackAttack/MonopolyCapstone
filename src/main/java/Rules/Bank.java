@@ -1,11 +1,12 @@
 package Rules;
 
+import java.util.Vector;
+import java.util.logging.Logger;
+
 import Board.Ownable;
 import Board.Property;
 import Players.AllPlayers;
 import Players.Player;
-import java.util.logging.*;
-import java.util.Vector;
 
 /**
  * Created by Lucy on 2018/04/02.

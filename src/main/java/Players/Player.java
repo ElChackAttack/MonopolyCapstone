@@ -1,17 +1,15 @@
 package Players;
 
-import Board.*;
-import Board.Space;
-import Cards.Card;
-import Cards.CardAction;
-import Cards.Deck;
-import Dice.*;
-import Rules.*;
-import Logger.*;
-
-import java.io.Serializable;
+import java.io.*;
 import java.util.*;
 import java.util.logging.Logger;
+
+import Board.*;
+import Cards.*;
+import Dice.*;
+import Rules.*;
+import Utility.DataLogger;
+import Utility.TurnCounter;
 
 /**
  * Created by marc on 20/11/2015.

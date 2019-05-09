@@ -2,7 +2,7 @@ package Board;
 
 import Players.Player;
 import Rules.AllRules;
-import Board.ParameterFetch;
+import Utility.ParameterFetch;
 
 /**
  * Contains the information for tax spaces.

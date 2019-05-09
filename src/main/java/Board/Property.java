@@ -1,6 +1,5 @@
 package Board;
 
-import Logger.PropertyLogger;
 import Players.Player;
 import Rules.AllRules;
 

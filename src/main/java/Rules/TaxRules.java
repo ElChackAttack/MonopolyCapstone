@@ -1,9 +1,8 @@
 package Rules;
 
 import Board.Tax;
-import Logger.TurnCounter;
-import Board.ParameterFetch;
 import Players.Player;
+import Utility.ParameterFetch;;
 
 /**
  * Created by Lucy on 2018/04/02.

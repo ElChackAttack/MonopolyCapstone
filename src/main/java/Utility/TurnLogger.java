@@ -1,13 +1,6 @@
-package Logger;
+package Utility;
 
-import Board.Ownable;
-import Board.Space;
-import Players.Player;
-
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 
 /**
  * Created by userhp on 07/03/2016.

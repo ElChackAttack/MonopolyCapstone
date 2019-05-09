@@ -1,12 +1,12 @@
 package Rules;
 
+import java.util.Vector;
+
 import Board.Ownable;
-import Logger.DataLogger;
-import Logger.TurnCounter;
 import Players.AllPlayers;
 import Players.Player;
-
-import java.util.Vector;
+import Utility.DataLogger;
+import Utility.TurnCounter;
 
 /**
  * Rules for checking if the player is bankrupt
@@ -31,7 +31,7 @@ public class BankruptcyRules {
             bankruptPlayer.removeProperty(space);
             space.setOwner(owedPlayer);
         }
-        System.out.println(bankruptPlayer.getName() + " is out of the game");
+        // System.out.println(bankruptPlayer.getName() + " is out of the game");
         DataLogger.writeToLog(TurnCounter.getTurn(), bankruptPlayer, bankruptPlayer.getCurrentLocation());
         AllPlayers.getInstance().removePlayer(bankruptPlayer);
     }
@@ -44,7 +44,7 @@ public class BankruptcyRules {
             AllRules.getBankRules().auctionProperty(space);
             bankruptPlayer.removeProperty(space);
         }
-        System.out.println("Player is out of the game");
+        // System.out.println("Player is out of the game");
         DataLogger.writeToLog(TurnCounter.getTurn(), bankruptPlayer, bankruptPlayer.getCurrentLocation());
         AllPlayers.getInstance().removePlayer(bankruptPlayer);
     }

@@ -1,7 +1,7 @@
 package Rules;
 
+import Utility.ParameterFetch;
 import Players.Player;
-import Board.ParameterFetch;
 
 /**
  * Created by Lucy on 2018/04/02.

@@ -1,10 +1,10 @@
 package Cards;
 
+import java.util.logging.Logger;
+
 import Board.BoardHelper;
 import Board.Space;
 import Players.Player;
-
-import java.util.logging.Logger;
 
 /**
  *

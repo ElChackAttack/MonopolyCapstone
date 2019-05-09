@@ -1,12 +1,15 @@
 package Rules;
 
-import Board.*;
-import Players.Player;
-
 import java.util.Stack;
 
+import Board.BoardHelper;
+import Board.Group;
+import Board.Ownable;
+import Board.Property;
+import Players.Player;
+
 /**
- * ? differenece Lua function and not Lua ones
+ * ? Differenece Lua function and not Lua ones
  * Created by Lucy on 2018/04/02.
  */
 public class BuildRules {

@@ -5,7 +5,7 @@ import Players.AllPlayers;
 import Players.OrderStartingPlayers;
 import Players.Player;
 import Rules.*;
-import Logger.*;
+import Utility.*;
 
 import java.util.logging.*;
 import java.util.*;

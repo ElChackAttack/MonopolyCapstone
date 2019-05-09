@@ -1,14 +1,13 @@
-package Board;
+package Utility;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.Arrays;
 import java.util.Vector;
 
-import Board.*;
-import Cards.*;
-import Dice.*;
-import Logger.*;
-import Players.*;
+import Dice.Dice;
+import Players.Player;
 
 /**
  * Fetch user input from UserInput.csv, and assign values to corresponding variable
@@ -82,17 +81,21 @@ public class ParameterFetch {
         }
     }
 
+
     public static int getSimulationsToRun() {
         return simulationsToRun;
     }
+
 
     public static int getEndlessTurn() {
         return endlessTurn;
     }
 
+
     public static int getNumOfPlayers() {
         return numOfPlayers;
     }
+
 
     public static Vector<Player> getPlayersInGame() {
         Dice[] diceForGame = new Dice[numOfDice];
@@ -105,12 +108,35 @@ public class ParameterFetch {
         return playersInGame;
     }
 
+
+    public static void setIncomeTaxFee(int fee) {
+        incomeTax = fee;
+    }
+
+
+    public static void setLuxuryTaxFee(int fee) {
+        luxuryTax = fee;
+    }
+
+
     public static int getTaxFee(String name) {
         if (name.equalsIgnoreCase("Luxury Tax")) {
             return luxuryTax;
         }
         return incomeTax;
     }
+
+
+    public static void setIncomeTaxPercentage(double percentage) {
+        incomeTaxPercentage = percentage;
+    }
+
+
+    public static void setLuxuryTaxPercentage(double percentage) {
+        luxuryTaxPercentage = percentage;
+    }
+
+
 
     public static double getTaxPercentage(String name) {
         if (name.equalsIgnoreCase("Income Tax")) {
@@ -119,22 +145,52 @@ public class ParameterFetch {
         return luxuryTaxPercentage;
     }
 
+
+    public static void setSalary(int s) {
+        salary = s;
+    }
+
+
     public static int getSalary() {
         return salary;
     }
+
+
+    public static void setSalaryPercentage(double percentage) {
+        salaryPercentage = percentage;
+    }
+
 
     public static double getSalaryPercentage() {
         return salaryPercentage;
     }
     
+
+    public static void setIncomeTaxPerNumOfTurn(int turn) {
+        incomeTaxPerNumOfTurn = turn;
+    }
+
+
     public static int getIncomeTaxPerNumOfTurn() {
         return incomeTaxPerNumOfTurn;
     }
     
+
+    public static void setLuxuryTaxPerNumOfTurn(int turn) {
+        luxuryTaxPerNumOfTurn = turn;
+    }
+
+
     public static int getLuxuryTaxPerNumOfTurn() {
         return luxuryTaxPerNumOfTurn;
     }
 
+
+    public static void setSalaryPerNumOfTurn(int turn) {
+        salaryPerNumOfTurn = turn;
+    }
+
+    
     public static int getSalaryPerNumOfTurn() {
         return salaryPerNumOfTurn;
     }

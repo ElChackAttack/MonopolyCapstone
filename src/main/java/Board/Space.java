@@ -1,8 +1,6 @@
 package Board;
 
 import Players.Player;
-import Rules.AllRules;
-import Rules.Bank;
 
 /**
  * Created by Lucy on 2018/04/05.
