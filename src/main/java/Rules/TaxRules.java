@@ -1,30 +1,15 @@
 package Rules;
 
-import Board.Tax;
 import Players.Player;
+import Utility.Option;
 import Utility.ParameterFetch;;
 
 /**
  * Created by Lucy on 2018/04/02.
  */
 public class TaxRules {
-    private static boolean fixedIncomeTaxOption;
-    private static double incomeTaxPercentage;
-    private static boolean fixedLuxuryTaxOption;
-    private static double luxuryTaxPercentage;
 
     public TaxRules() {
-        luxuryTaxPercentage = 0;
-        incomeTaxPercentage = 0.1;
-        fixedLuxuryTaxOption = true;
-        fixedIncomeTaxOption = false;
-    }
-
-    private boolean getFixedTaxOption(double taxPercentage) {
-        if (taxPercentage != 0) {
-            return false;
-        }
-        return true;
     }
 
     /**
@@ -32,22 +17,17 @@ public class TaxRules {
      * @param player the player to calculate tax for
      * @return minimum tax to be paid
      */
-    public int calculateTax(Player player, String taxName) {
-        String name = null;
-        int tax = 0;
-        if (taxName == null) {
-            Tax location = (Tax) player.getCurrentLocation();
-            tax = location.getFee();
-            name = location.getName();
-        } else {
-            tax = ParameterFetch.getTaxFee(taxName);
-            name = taxName;
+    public int calculateTax(Player player) {
+        Option option = ParameterFetch.getTaxOption();
+        int taxable = (int) (player.calculateNetWorth() *  ParameterFetch.getTaxPercentage());
+        int tax = ParameterFetch.getTax();
+        if (option == Option.MAX) {
+            return Math.max(taxable, tax);
+        } else if (option == Option.MIN) {
+            return Math.min(taxable, tax);
+        } else if (option == Option.Fix) {
+            return tax;
         }
-        double taxPercentage = ParameterFetch.getTaxPercentage(name);
-        int taxablePlayerNetWorth = (int) (player.calculateNetWorth() * taxPercentage);
-        if (taxablePlayerNetWorth < tax && !getFixedTaxOption(taxPercentage)) {
-            tax = taxablePlayerNetWorth;
-        }
-        return tax;
+        return taxable;
     }
 }

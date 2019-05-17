@@ -92,7 +92,7 @@ public class Player implements Serializable {
                 LOGGER.info(loggingName + " wants space " + space.getName());
 
                 if (space.getOwner() != (null)) {
-                    if (space.getOwner().askToBuyPropertyFor(space, space.getCost() * 10)) {
+                    if (space.getOwner().askToBuyPropertyFor(space, space.getCost() * 10, this)) {
                         bankRules.tradeProperty(space, this, space.getOwner(), space.getCost() * 10);
                     }
                 }
@@ -102,7 +102,10 @@ public class Player implements Serializable {
         // This may take a while 
     }
 
-    public boolean askToBuyPropertyFor(Ownable space, int askingPrice) {
+    public boolean askToBuyPropertyFor(Ownable space, int askingPrice, Player player) {
+        int houseLeft = AllRules.getBankRules().getHousesInBank();
+        Vector<Space> allSpacesOfGroup = boardHelper.getAllSpaces();
+        
         double rand = new Random().nextDouble();
         boolean tradeProperty = false;
         if (rand > 0.25) {
@@ -117,7 +120,7 @@ public class Player implements Serializable {
         Collections.sort(properties, new OwnableComparator());
         for (Ownable space : properties) {
             if (space.isMortgaged() && wantToUnmortgageProperty(space)) {
-                bankRules.unmortgageProperty(space, this);
+                bankRules.unmortgagedProperty(space, this);
             }
         }
     }
@@ -404,7 +407,6 @@ public class Player implements Serializable {
     
 
     public int calculateNetWorth() {
-        // Todo: test method
         int netWorth = money;
         for(Ownable space : ownedSpaces){
             netWorth += space.getCost();
@@ -417,7 +419,6 @@ public class Player implements Serializable {
     }
 
     public int calculateSaleableItems() {
-        // Todo: test method
         int saleableMoney = money;
         for(Ownable space : ownedSpaces){
             saleableMoney += space.getMortgagePrice();

@@ -47,7 +47,7 @@ public class Bank {
     }
 
     public void passGo(Player player) {
-        player.receiveMoney(goRules.getSalary(player));
+        player.receiveMoney(goRules.calculateSalary(player));
     }
 
     public boolean buyHouse(Property property,Player player) {
@@ -165,7 +165,7 @@ public class Bank {
         player.receiveMoney(space.getMortgagePrice());
     }
 
-    public void unmortgageProperty(Ownable space, Player player) {
+    public void unmortgagedProperty(Ownable space, Player player) {
         player.spendMoney((int) (space.getMortgagePrice() + (space.getMortgagePrice() * 0.1)));
         space.setMortgaged(false);
     }

@@ -5,7 +5,7 @@ package Rules;
  */
 public class AllRules {
     private static AuctionRules auctionRules;
-    private static Bank bank;
+    private static Bank bankRules;
     private static BankruptcyRules bankruptcyRules;
     private static BuildRules buildRules;
     private static GoRules goRules;
@@ -25,11 +25,11 @@ public class AllRules {
     }
 
     public static Bank getBankRules() {
-        return bank;
+        return bankRules;
     }
 
     public static void setBankRules(Bank bank) {
-        AllRules.bank = bank;
+        AllRules.bankRules = bank;
     }
 
     public static BankruptcyRules getBankruptcyRules() {

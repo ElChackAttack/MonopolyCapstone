@@ -15,21 +15,48 @@ public class TurnLogger {
             writer = new BufferedWriter(new FileWriter(csvFile, true));
         } catch (IOException e) {
             e.printStackTrace();
-
         }
-
     }
 
-    public static void writeToLog(int turn) {
+    // public static void writeToLog(int num) {
+    //     if (csvFile != null) {
+    //         try {
+    //             writer.append(num + "," );
+    //             // writer.append("\n");
+    //         } catch (IOException e) {
+    //             e.printStackTrace();
+    //         }
+    //     }
+    // }
+
+    // public static void writeToLog(Double num) {
+    //     if (csvFile != null) {
+    //         try {
+    //             writer.append(num + "," );
+    //             // writer.append("\n");
+    //         } catch (IOException e) {
+    //             e.printStackTrace();
+    //         }
+    //     }
+    // }
+
+    public static void writeToLog(Object object) {
         if (csvFile != null) {
-
             try {
+                writer.append(object + "," );
+                // writer.append("\n");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
-                writer.append(Integer.toString(turn));
+    public static void endOfLine() {
+        if (csvFile != null) {
+            try {
                 writer.append("\n");
             } catch (IOException e) {
                 e.printStackTrace();
-
             }
         }
     }
@@ -39,8 +66,6 @@ public class TurnLogger {
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
-
         }
-
     }
 }

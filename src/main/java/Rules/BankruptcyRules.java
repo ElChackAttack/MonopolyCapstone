@@ -17,12 +17,14 @@ public class BankruptcyRules {
         boolean bankrupt = false;
         if(player.calculateSaleableItems()<moneyOwed) {
             bankrupt = true;
+            // System.out.print("Player own " + moneyOwed + "from ");
         }
         return bankrupt;
     }
 
     public void bankruptByPlayer(Player owedPlayer, Player bankruptPlayer) {
         int allBankruptPlayerMoney = bankruptPlayer.getMoney();
+        // System.out.println(owedPlayer.getName() + ": " + allBankruptPlayerMoney);
         owedPlayer.receiveMoney(allBankruptPlayerMoney);
         bankruptPlayer.spendMoney(allBankruptPlayerMoney);
         Vector<Ownable> ownedSpaces = (Vector<Ownable>) bankruptPlayer.getOwnedSpaces().clone();
@@ -38,6 +40,7 @@ public class BankruptcyRules {
 
     public void bankruptByBank( Player bankruptPlayer) {
         int allBankruptPlayerMoney = bankruptPlayer.getMoney();
+        // System.out.println("bank: " + allBankruptPlayerMoney);
         bankruptPlayer.spendMoney(allBankruptPlayerMoney);
         Vector<Ownable> ownedSpaces = bankruptPlayer.getOwnedSpaces();
         for(Ownable space : ownedSpaces) {

@@ -131,12 +131,15 @@ public class BoardHelper {
         }
         return group;
     }
+
     public Vector<Space> getAllSpaces(){
         return spaces;
     }
+
     public Space getSpaceOnBoard(int loc){
         return spaces.elementAt(loc);
     }
+
     public Space getSpaceOnBoard(String name){
         for (Space s : spaces ) {
             if (s.getName().equalsIgnoreCase(name)){
@@ -145,8 +148,8 @@ public class BoardHelper {
         }
         System.out.println("Space with that name not found "+ name);
         return null;
-
     }
+
     public int getLocationOfSpace(Space space){
         return spaces.indexOf(space);
     }
@@ -158,7 +161,7 @@ public class BoardHelper {
             newLocation = spaces.size() + newLocation;
         } else if (newLocation >= spaces.size()) {
             if (ParameterFetch.getSalaryPerNumOfTurn() == 0) {
-                playerToMove.receiveMoney(AllRules.getGoRules().getSalary(playerToMove));
+                playerToMove.receiveMoney(AllRules.getGoRules().calculateSalary(playerToMove));
             }
             newLocation = newLocation % (spaces.size());
         }
@@ -169,37 +172,35 @@ public class BoardHelper {
         }
         return spaces.elementAt(newLocation);
     }
+
     public Space moveToNearestStation(Space currentLocation){
         int locationInVector = this.getLocationOfSpace(currentLocation);
         for (Space space : spaces.subList(locationInVector,spaces.size())) {
             if(space.getGroup() == Group.Station){
                 return space;
             }
-
         }
         //In case the nearest station is past go.
         for (Space space : spaces.subList(0,locationInVector)) {
             if(space.getGroup() == Group.Station){
                 return space;
             }
-
         }
         return null;
     }
+
     public Space moveToNearestUtility(Space currentLocation){
         int locationInVector = this.getLocationOfSpace(currentLocation);
         for (Space space : spaces.subList(locationInVector,spaces.size())) {
             if(space.getGroup() == Group.Utility){
                 return space;
             }
-
         }
         //In case the nearest station is past go.
         for (Space space : spaces.subList(0,locationInVector)) {
             if(space.getGroup() == Group.Utility){
                 return space;
             }
-
         }
         return null;
     }
@@ -224,7 +225,5 @@ public class BoardHelper {
     public void replaceSpaceOnBoard(Space lastSpaceLoaded, Space newSpace) {
         int index = spaces.indexOf(lastSpaceLoaded);
         spaces.set(index, newSpace);
-
-
     }
 }

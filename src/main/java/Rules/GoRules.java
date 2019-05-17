@@ -1,5 +1,6 @@
 package Rules;
 
+import Utility.Option;
 import Utility.ParameterFetch;
 import Players.Player;
 
@@ -7,33 +8,8 @@ import Players.Player;
  * Created by Lucy on 2018/04/02.
  */
 public class GoRules {
-    private static int salary;
-    private static double salaryPercentage;
-    private static boolean fixedSalaryOption;
 
     public GoRules() {
-        salary = ParameterFetch.getSalary();
-        salaryPercentage = ParameterFetch.getSalaryPercentage();
-        fixedSalaryOption = getFixedSalaryOption();
-    }
-
-    public int getSalary() {
-        return calculateSalary();
-    }
-    
-    public int getSalary(Player player) {
-        return calculateSalary(player);
-    }
-    
-    private int calculateSalary() {
-        return salary;
-    }
-
-    private boolean getFixedSalaryOption() {
-        if (salaryPercentage != 0) {
-            return false;
-        }
-        return true;
     }
     
     /**
@@ -42,11 +18,17 @@ public class GoRules {
      * @param player the player to calculate salary for
      * @return minimum salary to be earned
      */
-    private int calculateSalary(Player player) {
-        int profitablePlayerNetWorth = (int) (player.calculateNetWorth() * salaryPercentage);
-        if (profitablePlayerNetWorth < salary && !fixedSalaryOption) {
-            return profitablePlayerNetWorth;
+    public int calculateSalary(Player player) {
+        Option option = ParameterFetch.getTaxOption();
+        int profitable = (int) (player.calculateNetWorth() * ParameterFetch.getSalaryPercentage());
+        int salary = ParameterFetch.getSalary();
+        if (option == Option.MAX) {
+            return Math.max(profitable, salary);
+        } else if (option == Option.MIN) {
+            return Math.min(profitable, salary);
+        } else if (option == Option.Fix) {
+            return salary;
         }
-        return salary;
+        return profitable;
     }
 }
